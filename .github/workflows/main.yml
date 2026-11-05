@@ -1,0 +1,32 @@
+
+name: Student Placement CI Pipeline
+
+on: [push, pull_request]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+
+      - name: Install Dependencies
+        run: pip install -r requirements.txt
+
+      - name: Run Model Training
+        run: python train.py
+
+      - name: Generate Build Report
+        run: echo "Student Placement CI Pipeline Successful" > report.txt
+
+      - name: Upload Build Report
+        uses: actions/upload-artifact@v4
+        with:
+          name: placement-build-report
+          path: report.txt
